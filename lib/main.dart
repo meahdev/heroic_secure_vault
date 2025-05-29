@@ -26,7 +26,7 @@ class SecureVaultInitial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text("Secure Vault in Prod Mode"),),
+      body: Center(child: Text("Secure Vault in Dev Mode"),),
     );
   }
 }
