@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f0f321f1-de47-47ed-b271-c79b4b0f78b8" name="Changes" comment="initial commit production">
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-    </list>
+    <list default="true" id="f0f321f1-de47-47ed-b271-c79b4b0f78b8" name="Changes" comment="Implemented authentication: set PIN, confirm PIN, enter PIN, and biometric support" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,14 +18,27 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="feature/clean-architecture-structure" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "meahdev"
+  }
+}]]></component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/meahdev/heroic_secure_vault.git",
@@ -47,12 +63,20 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "devlopement",
+    "git-widget-placeholder": "feature/authentication",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
-    "show.migrate.to.gradle.popup": "false"
+    "last_opened_file_path": "/Users/shabeer/Documents/heroic_secure_vault",
+    "show.migrate.to.gradle.popup": "false",
+    "structure.view.defaults.are.configured": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/lib" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -70,7 +94,31 @@
       <option name="project" value="LOCAL" />
       <updated>1748495534149</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="initial commit development">
+      <option name="closed" value="true" />
+      <created>1748495783989</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1748495783989</updated>
+    </task>
+    <task id="LOCAL-00003" summary="setup clean architecture base structure">
+      <option name="closed" value="true" />
+      <created>1748496200388</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1748496200388</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Implemented authentication: set PIN, confirm PIN, enter PIN, and biometric support">
+      <option name="closed" value="true" />
+      <created>1748562119492</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1748562119492</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -86,6 +134,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit production" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit production" />
+    <MESSAGE value="initial commit development" />
+    <MESSAGE value="setup clean architecture base structure" />
+    <MESSAGE value="Implemented authentication: set PIN, confirm PIN, enter PIN, and biometric support" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented authentication: set PIN, confirm PIN, enter PIN, and biometric support" />
   </component>
 </project>

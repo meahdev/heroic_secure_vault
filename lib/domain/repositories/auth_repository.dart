@@ -13,10 +13,10 @@ abstract class AuthRepository {
 
   /// Checks if a PIN is set.
   Future<bool> hasPin();
+  /// Saves the biometric state.
+  Future<void> setBioMetric(bool isEnabled);
 
-  /// Locks the app.
-  Future<void> lock();
+  /// Checks if a biometric is enabled.
+  Future<bool> isBioMetricEnabled();
 
-  /// Checks if the app is currently locked.
-  Future<bool> isLocked();
 }
