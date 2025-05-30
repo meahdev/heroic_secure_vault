@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:secure_vault/core/utils/go_router_refresh_helper.dart';
 import 'package:secure_vault/features/authentication/presentation/screen/biometric_auth_screen.dart';
 import 'package:secure_vault/features/credential/presentation/screen/add_update_credential_screen.dart';
 import '../core/constants/route_constants.dart';
@@ -12,7 +13,8 @@ import '../features/authentication/presentation/screen/pin_confirm_screen.dart';
 import '../features/authentication/presentation/screen/set_pin_screen.dart';
 import '../features/credential/domain/entities/credential_entity.dart';
 import '../features/credential/presentation/screen/credential_screen.dart';
-import '../features/splash/splash_screen.dart';
+import '../features/password_generator/presentation/screens/password_generator_screen.dart';
+import '../splash_screen.dart';
 
 /// Creates and configures the main app app_router using GoRouter.
 ///
@@ -25,13 +27,13 @@ GoRouter createAppRouter(
 }) {
   return GoRouter(
     debugLogDiagnostics: true,
-    refreshListenable: GoRouterRefreshStream(authBlocStream),
+    refreshListenable: GoRouterRefreshStreamHelper(authBlocStream),
     redirect: (context, state) {
       final authState = context.read<AuthBloc>().state;
       final isLocked = authState is LockUpdatedState && authState.locked;
       final isLockScreen = state.matchedLocation == '/enterPin';
 
-       if (isLocked && !isLockScreen) return '/enterPin';
+      if (isLocked && !isLockScreen) return '/enterPin';
       return null;
     },
     initialLocation: '/',
@@ -105,22 +107,14 @@ GoRouter createAppRouter(
           );
         },
       ),
+      GoRoute(
+        name: RouteConstants.passwordGenerator,
+        path: '/passwordGenerator',
+        builder: (context, state) {
+          onRouteChange?.call('/password-generator');
+          return const PasswordGeneratorScreen();
+        },
+      ),
     ],
   );
-}
-
-class GoRouterRefreshStream extends ChangeNotifier {
-  GoRouterRefreshStream(Stream<dynamic> stream) {
-    _subscription = stream.asBroadcastStream().listen((_) {
-      notifyListeners();
-    });
-  }
-
-  late final StreamSubscription<dynamic> _subscription;
-
-  @override
-  void dispose() {
-    _subscription.cancel();
-    super.dispose();
-  }
 }

@@ -37,6 +37,13 @@ class _CredentialScreenState extends State<CredentialScreen> {
         title: CustomText(AppStrings.yourCredentials),
         actions: [
           IconButton(
+            icon: Icon(Icons.lock_outline),
+            onPressed: () {
+              context.pushNamed(RouteConstants.passwordGenerator);
+            },
+          ),
+          SizedBox(width: 5),
+          IconButton(
             icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
             onPressed: () {
               context.read<ThemeCubit>().toggleTheme();
@@ -100,9 +107,12 @@ class _CredentialScreenState extends State<CredentialScreen> {
                               CustomText(
                                 "${AppStrings.password}: ${credential.password}",
                               ),
-                              InkWell(onTap: () {
-                                _showAlert(context, credential);
-                              }, child: Icon(Icons.delete)),
+                              InkWell(
+                                onTap: () {
+                                  _showAlert(context, credential);
+                                },
+                                child: Icon(Icons.delete),
+                              ),
                             ],
                           ),
                         ],

@@ -31,20 +31,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.isBiometricEnabled,
     required this.setBioMetric,
   }) : super(AuthInitial()) {
+
+    // Event when user enters PIN initially; validate rules (not sequential, etc.)
     on<PinEntered>((event, emit) async {
       if (!PinRules.isValid(event.pin)) {
+        // Invalid PIN pattern, reject with failure state
         emit(SetPinFailedState(AppStrings.pinBlock, DateTime.now().toString()));
         return;
       }
+      // Valid PIN, prompt for confirmation
       emit(SetPinConfirmState(event.pin, DateTime.now().toString()));
     });
 
+    // Event when user confirms the PIN
     on<PinConfirmed>((event, emit) async {
       if (event.firstPin == event.confirmPin) {
         emit(AuthLoading());
+        // Save PIN securely
         await savePin.call(event.confirmPin);
         emit(PinSavedState());
       } else {
+        // Confirmation doesn't match initial PIN
         emit(
           ConfirmPinFailedState(
             AppStrings.pinDoesNotMatch,
@@ -54,6 +61,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
+    // Event to verify entered PIN for authentication
     on<VerifyPinEvent>((event, emit) async {
       emit(AuthLoading());
       final valid = await verifyPin(event.pin);
@@ -69,32 +77,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
+    // Check if a PIN is already saved (e.g. on app start)
     on<CheckHasPinEvent>((event, emit) async {
       emit(AuthLoading());
       final exists = await hasPin();
-      // We could add states to reflect this if needed
       emit(exists ? PinSavedState() : PinNotSavedState());
     });
 
+    // Check if biometric auth is enabled
     on<CheckHasBioMetricEvent>((event, emit) async {
       emit(AuthLoading());
       final exists = await isBiometricEnabled();
       if (exists) {
-        emit(exists ? BioMetricSavedState() : BioMetricNotSavedState());
+        emit(BioMetricSavedState());
       } else {
-        // Chain to check PIN if biometric is not enabled
+        // If biometrics not enabled, fallback to check PIN
         add(CheckHasPinEvent());
       }
     });
 
+    // Event to toggle app lock state
     on<SetLockEvent>((event, emit) async {
       emit(LockUpdatedState(event.locked));
     });
 
+    // Authenticate user via biometrics (e.g. fingerprint, face)
     on<AuthenticateBiometricsEvent>((event, emit) async {
       emit(AuthLoading());
       final success = await authenticateWithBiometrics();
       if (success) {
+        // Save biometric enabled state
         await setBioMetric.call(true);
         emit(BiometricAuthSuccessState());
       } else {

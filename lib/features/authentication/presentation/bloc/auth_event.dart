@@ -57,8 +57,5 @@ class SetLockEvent extends AuthEvent {
 
 // Triggered for biometric authentication
 class AuthenticateBiometricsEvent extends AuthEvent {}
-class AppResumedEvent extends AuthEvent {}
-class UserActivityEvent extends AuthEvent {}
 
-class LockEvent extends AuthEvent {}
 

@@ -20,6 +20,7 @@ class CustomButton extends StatelessWidget {
   final TextAlign? textAlign;
   final bool isUnderLine;
   final bool isStrike;
+  final TextStyle?textStyle;
 
   const CustomButton({
     super.key,
@@ -39,6 +40,7 @@ class CustomButton extends StatelessWidget {
     this.textAlign,
     this.isUnderLine = false,
     this.isStrike = false,
+    this.textStyle,
   });
 
   @override
@@ -80,7 +82,7 @@ class CustomButton extends StatelessWidget {
       autofocus: autofocus,
       child: CustomText(
         text,
-        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+        style: textStyle??Theme.of(context).textTheme.labelLarge?.copyWith(
           color: isDark ? AppColors.white : AppColors.black,
           fontSize: fontSize,
           decoration:

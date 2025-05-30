@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:secure_vault/shared/widgets/custom_loader/custom_loader.dart';
 
-import '../../core/constants/route_constants.dart';
-import '../authentication/presentation/bloc/auth_bloc.dart';
+import 'core/constants/route_constants.dart';
+import 'features/authentication/presentation/bloc/auth_bloc.dart';
 
 /// Splash screen responsible for initial routing based on PIN availability.
 class SplashScreen extends StatefulWidget {
