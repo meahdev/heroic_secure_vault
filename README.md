@@ -38,7 +38,7 @@ A highly secure Flutter app for managing sensitive credentials, built using **Cl
 ### 🚀 Installation
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/meahdev/heroic_secure_vault.git
 cd secure_vault
 flutter pub get
 flutter run
