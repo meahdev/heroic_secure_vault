@@ -25,7 +25,7 @@ class AESHelper {
   static String decryptText(String encrypted) {
     try {
       return _encrypter.decrypt64(encrypted, iv: _iv);
-    } catch (e, stackTrace) {
+    } catch (e) {
       // Could log error and stackTrace here if needed.
       return '[DECRYPTION_FAILED]';
     }

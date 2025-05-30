@@ -23,6 +23,7 @@ import '../../features/password_generator/domain/repositories/password_repositor
 import '../../features/password_generator/domain/usecases/evaluate_password_strength.dart';
 import '../../features/password_generator/domain/usecases/generate_password.dart';
 import '../../features/password_generator/presentation/blocs/password_generator_bloc.dart';
+import '../inactive/inactive_cubit.dart';
 import '../storage/secure_storage_service.dart';
 import '../storage/shared_prefs_service.dart';
 import '../theme/theme_cubit.dart';
@@ -120,4 +121,7 @@ void setupDependencies() {
   sl.registerFactory(
     () => PasswordGeneratorBloc(generatePassword: sl(), evaluateStrength: sl()),
   );
+
+  // InActivity  Cubit
+  sl.registerLazySingleton<InactivityCubit>(() => InactivityCubit());
 }

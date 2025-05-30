@@ -66,7 +66,7 @@ class _CredentialScreenState extends State<CredentialScreen> {
             }
             return ListView.builder(
               itemCount: state.credentials.length,
-              padding: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.only(top: 10,bottom: 20),
               itemBuilder: (context, index) {
                 final credential = state.credentials[index];
                 return InkWell(

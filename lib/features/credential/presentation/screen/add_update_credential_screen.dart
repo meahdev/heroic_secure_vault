@@ -11,6 +11,7 @@ import 'package:secure_vault/shared/widgets/custom_button/custom_button.dart';
 
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/category_constants.dart';
+import '../../../../core/inactive/inactive_cubit.dart';
 import '../../../../core/security/password_strength.dart';
 import '../../../../core/theme/theme_cubit.dart';
 import '../../../../shared/widgets/custom_text/custom_text.dart';
@@ -193,6 +194,9 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
                   validator: _requiredValidator,
                   isHasBorder: true,
                   textInputAction: TextInputAction.next,
+                  onChanged: (val){
+                    context.read<InactivityCubit>().userActivity();
+                  },
                   onSubmitted:
                       (_) => FocusScope.of(context).requestFocus(_siteFocus),
                 ),
@@ -213,6 +217,9 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
                   isHasBorder: true,
                   isOutLineInputBorder: true,
                   textInputAction: TextInputAction.next,
+                  onChanged: (val){
+                    context.read<InactivityCubit>().userActivity();
+                  },
                   onSubmitted:
                       (_) =>
                           FocusScope.of(context).requestFocus(_passwordFocus),
@@ -234,6 +241,9 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
                   validator: _requiredValidator,
                   isHasBorder: true,
                   isOutLineInputBorder: true,
+                  onChanged: (val){
+                    context.read<InactivityCubit>().userActivity();
+                  },
                   obscureText: true,
                   textInputAction: TextInputAction.done,
                   onSubmitted: (_) => _onSubmit(),

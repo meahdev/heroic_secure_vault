@@ -20,6 +20,7 @@ import 'package:secure_vault/features/credential/presentation/bloc/credential_bl
 import 'package:secure_vault/features/password_generator/presentation/blocs/password_generator_bloc.dart';
 import 'app/app_theme.dart';
 import 'core/di/injection.dart';
+import 'core/inactive/inactive_cubit.dart';
 import 'core/storage/secure_storage_service.dart';
 import 'core/storage/shared_prefs_service.dart';
 import 'features/authentication/domain/use_cases/has_pin.dart';
@@ -55,6 +56,7 @@ void main() async {
         BlocProvider.value(value: sl<ThemeCubit>()),
         BlocProvider.value(value: sl<CredentialBloc>()),
         BlocProvider.value(value: sl<PasswordGeneratorBloc>()),
+        BlocProvider.value(value: sl<InactivityCubit>()),
       ],
       child: const MyApp(),
     ),
@@ -91,11 +93,19 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       context,
       _authBloc.stream,
       onRouteChange: (route) {
+        //  Cancel timer first on any route change
+        _inactivityTimer?.cancel();
         if (_shouldStartTimerOnRoute(route)) {
           _startInactivityTimer();
         }
       },
     );
+
+    // Reset inactivity timer on user activity events
+    context.read<InactivityCubit>().stream.listen((_) {
+      _inactivityTimer?.cancel();
+      _startInactivityTimer();
+    });
 
     // Start listening for screenshots
     _noScreenshot.startScreenshotListening();
@@ -159,20 +169,31 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Listener(
-      // Reset inactivity timer on any touch interaction
-      onPointerDown: (_) => _startInactivityTimer(),
-      child: BlocBuilder<ThemeCubit, ThemeMode>(
-        builder: (context, themeMode) {
-          return MaterialApp.router(
-            title: 'Secure Vault',
-            debugShowCheckedModeBanner: false,
-            themeMode: themeMode,
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            routerConfig: _router,
-          );
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        _startInactivityTimer();
+      },
+      onPanDown: (_) {
+        _startInactivityTimer();
+      },
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (scroll) {
+          _startInactivityTimer();
+          return false;
         },
+        child: BlocBuilder<ThemeCubit, ThemeMode>(
+          builder: (context, themeMode) {
+            return MaterialApp.router(
+              title: 'Secure Vault',
+              debugShowCheckedModeBanner: false,
+              themeMode: themeMode,
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              routerConfig: _router,
+            );
+          },
+        ),
       ),
     );
   }
