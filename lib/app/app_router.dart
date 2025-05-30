@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:secure_vault/features/authentication/presentation/screen/biometric_auth_screen.dart';
+import 'package:secure_vault/features/credential/presentation/screen/add_update_credential_screen.dart';
 import '../core/constants/route_constants.dart';
 import '../features/authentication/presentation/bloc/auth_bloc.dart';
 import '../features/authentication/presentation/screen/enter_pin_screen.dart';
 import '../features/authentication/presentation/screen/pin_confirm_screen.dart';
 import '../features/authentication/presentation/screen/set_pin_screen.dart';
+import '../features/credential/domain/entities/credential_entity.dart';
 import '../features/credential/presentation/screen/credential_screen.dart';
 import '../features/splash/splash_screen.dart';
 
@@ -17,10 +19,10 @@ import '../features/splash/splash_screen.dart';
 /// This app_router manages navigation between splash, authentication,
 /// and credential screens.
 GoRouter createAppRouter(
-    BuildContext context,
-    Stream authBlocStream, {
-      void Function(String)? onRouteChange,
-    }) {
+  BuildContext context,
+  Stream authBlocStream, {
+  void Function(String)? onRouteChange,
+}) {
   return GoRouter(
     debugLogDiagnostics: true,
     refreshListenable: GoRouterRefreshStream(authBlocStream),
@@ -33,7 +35,8 @@ GoRouter createAppRouter(
       return null;
     },
     initialLocation: '/',
-    observers: [], // can't use NavigatorObserver directly, so skip
+    observers: [],
+    // can't use NavigatorObserver directly, so skip
     routes: [
       GoRoute(
         path: '/',
@@ -80,6 +83,26 @@ GoRouter createAppRouter(
         builder: (context, state) {
           onRouteChange?.call('/credential');
           return const CredentialScreen();
+        },
+      ),
+      GoRoute(
+        name: RouteConstants.addUpdateCredential,
+        path: '/add-update-credential',
+        builder: (context, state) {
+          final isEdit =
+              state.extra != null && state.extra is Map
+                  ? (state.extra as Map)['isEdit'] ?? false
+                  : false;
+          final credential =
+              state.extra != null && state.extra is Map
+                  ? (state.extra as Map)['credential'] as CredentialEntity?
+                  : null;
+
+          onRouteChange?.call('/add-update-credential');
+          return AddUpdateCredentialScreen(
+            isEdit: isEdit,
+            credential: credential,
+          );
         },
       ),
     ],

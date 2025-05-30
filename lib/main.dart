@@ -6,15 +6,20 @@ import 'package:go_router/go_router.dart';
 import 'package:secure_vault/app/app_router.dart';
 import 'package:secure_vault/core/theme/theme_cubit.dart';
 import 'package:secure_vault/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:secure_vault/features/credential/presentation/bloc/credential_bloc.dart';
 import 'app/app_theme.dart';
 import 'core/di/injection.dart';
 import 'core/storage/secure_storage_service.dart';
-import 'domain/use_cases/has_pin.dart';
+import 'core/storage/shared_prefs_service.dart';
+import 'features/authentication/domain/use_cases/has_pin.dart';
 
 void main() async {
+  // Ensures widgets & plugins are initialized
   WidgetsFlutterBinding.ensureInitialized();
+  // Register all dependencies
   setupDependencies();
-
+  // Initialize SharedPreferences inside the service
+  await sl<SharedPrefsService>().init();
   final secureStorageService = sl<SecureStorageService>();
   await secureStorageService.clearAllIfFirstInstall();
   SystemChrome.setPreferredOrientations([
@@ -26,6 +31,7 @@ void main() async {
       providers: [
         BlocProvider.value(value: sl<AuthBloc>()),
         BlocProvider.value(value: sl<ThemeCubit>()),
+        BlocProvider.value(value: sl<CredentialBloc>()),
       ],
       child: const MyApp(),
     ),
