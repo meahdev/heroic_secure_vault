@@ -14,6 +14,7 @@ class CustomTextField extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return TextFormField(
+      enableInteractiveSelection: false,
       // Controls capitalization of input text
       textCapitalization: config.textCapitalization,
 

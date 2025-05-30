@@ -17,8 +17,6 @@ class AESHelper {
     try {
       return _encrypter.decrypt64(encrypted, iv: _iv);
     } catch (e, stackTrace) {
-      print("❌ Error while decrypting: $e");
-      print(stackTrace);
       return '[DECRYPTION_FAILED]';
     }
   }
