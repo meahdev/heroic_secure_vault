@@ -3,6 +3,8 @@ import 'package:secure_vault/features/credential/domain/entities/category.dart';
 import '../../../../core/utils/AESHelper.dart';
 import '../../domain/entities/credential_entity.dart';
 
+/// Data model class for Credential, used for local storage and data manipulation.
+/// Handles encryption/decryption when converting between entity and model.
 class CredentialModel {
   final String id;
   final String siteName;
@@ -11,6 +13,7 @@ class CredentialModel {
   final Category category;
   final DateTime lastModified;
 
+  /// Constructor for initializing a CredentialModel instance.
   CredentialModel({
     required this.id,
     required this.siteName,
@@ -18,10 +21,10 @@ class CredentialModel {
     required this.encryptedPassword,
     required this.category,
     required this.lastModified,
-
   });
 
-  // Factory to create a model from entity (encrypt password)
+  /// Factory constructor to create a CredentialModel from a CredentialEntity.
+  /// Encrypts the plain text password before storing.
   factory CredentialModel.fromEntity(CredentialEntity entity) {
     return CredentialModel(
       id: entity.id,
@@ -29,11 +32,12 @@ class CredentialModel {
       username: entity.username,
       encryptedPassword: AESHelper.encryptText(entity.password),
       category: entity.category,
-      lastModified:entity.lastModified,
+      lastModified: entity.lastModified,
     );
   }
 
-  // Convert model to entity (decrypt password)
+  /// Converts this model back to a CredentialEntity.
+  /// Decrypts the stored encrypted password before returning the entity.
   CredentialEntity toEntity() {
     return CredentialEntity(
       id: id,
@@ -45,7 +49,7 @@ class CredentialModel {
     );
   }
 
-  // JSON serialization (to store in local storage)
+  /// Serializes this model into a JSON-compatible Map for storage.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -57,7 +61,8 @@ class CredentialModel {
     };
   }
 
-  // JSON deserialization (to load from local storage)
+  /// Factory constructor to create a CredentialModel from JSON map.
+  /// Used for deserialization when loading from storage.
   factory CredentialModel.fromJson(Map<String, dynamic> json) {
     return CredentialModel(
       id: json['id'],

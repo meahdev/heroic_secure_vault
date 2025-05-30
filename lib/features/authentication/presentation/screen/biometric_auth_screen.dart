@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:secure_vault/core/constants/route_constants.dart';
 import 'package:secure_vault/core/utils/snackbar_utils.dart';
 import 'package:secure_vault/shared/widgets/custom_button/custom_button.dart';
-import 'package:secure_vault/shared/widgets/custom_button/custom_text_button.dart';
 import 'package:secure_vault/shared/widgets/custom_text/custom_text.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../bloc/auth_bloc.dart';

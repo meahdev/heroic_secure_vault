@@ -43,6 +43,14 @@ class AppStrings {
   static const String copyPasswordWarning = "Password copied to clipboard. It will be cleared in 30 seconds.";
   static const String copyPasswordToClipBoard = "Copy password to clipboard";
 
+  //Password Generator
+  static const String   passwordGenerator = "Password Generator";
+  static const String   strength = "Strength";
+  static const String   includeSymbols = "Include Symbols";
+  static const String   includeNumbers = "Include Numbers";
+  static const String   generatePassword = "Generate Password";
+  static const String   useThePageToGenerateAPassword = "Use the page to generate a password.";
+
   // General
   static const String cancel = "Cancel";
   static const String ok = "OK";

@@ -18,6 +18,11 @@ import '../../features/credential/domain/usecases/delete_credential.dart';
 import '../../features/credential/domain/usecases/get_all_credentials.dart';
 import '../../features/credential/domain/usecases/update_credential.dart';
 import '../../features/credential/presentation/bloc/credential_bloc.dart';
+import '../../features/password_generator/data/repositories_impl/password_repository_impl.dart';
+import '../../features/password_generator/domain/repositories/password_repository.dart';
+import '../../features/password_generator/domain/usecases/evaluate_password_strength.dart';
+import '../../features/password_generator/domain/usecases/generate_password.dart';
+import '../../features/password_generator/presentation/blocs/password_generator_bloc.dart';
 import '../storage/secure_storage_service.dart';
 import '../storage/shared_prefs_service.dart';
 import '../theme/theme_cubit.dart';
@@ -88,7 +93,7 @@ void setupDependencies() {
   sl.registerLazySingleton(() => UpdateCredential(sl()));
   sl.registerLazySingleton(() => GetAllCredentials(sl()));
 
-  // Bloc or Cubit for Credential Feature
+  // Bloc  for Credential Feature
   sl.registerFactory(
     () => CredentialBloc(
       addCredential: sl(),
@@ -96,5 +101,23 @@ void setupDependencies() {
       updateCredential: sl(),
       getAllCredentials: sl(),
     ),
+  );
+
+  // ----------------------------------------
+  // Password Generator Feature Dependencies
+  // ----------------------------------------
+
+  //Repository
+
+  sl.registerLazySingleton<PasswordGeneratorRepository>(
+    () => PasswordGeneratorRepositoryImpl(),
+  );
+  // Use Cases
+  sl.registerLazySingleton(() => GeneratePassword(sl()));
+  sl.registerLazySingleton(() => EvaluatePasswordStrength(sl()));
+
+  // Bloc for Password Generator
+  sl.registerFactory(
+    () => PasswordGeneratorBloc(generatePassword: sl(), evaluateStrength: sl()),
   );
 }

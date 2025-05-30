@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pinput/pinput.dart';
-import 'package:secure_vault/core/utils/no_paste_helper.dart';
-import 'package:secure_vault/core/utils/snackbar_utils.dart';
 import 'package:secure_vault/features/credential/presentation/bloc/credential_bloc.dart';
 import 'package:secure_vault/features/credential/presentation/screen/widgets/category_dropdown.dart';
 import 'package:secure_vault/features/credential/presentation/screen/widgets/password_strength_indicator.dart';
@@ -65,6 +62,7 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
     _passwordController.addListener(_evaluatePasswordStrength);
   }
 
+
   void _evaluatePasswordStrength() {
     final strength = calculatePasswordStrength(_passwordController.text);
     setState(() {
@@ -114,12 +112,6 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
 
   void _copy() {
     final password = _passwordController.text;
-    if (password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a password first.')),
-      );
-      return;
-    }
 
     // Copy password to clipboard
     Clipboard.setData(ClipboardData(text: password));
@@ -134,11 +126,16 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
 
     // Start a timer to clear clipboard after 30 seconds
     _clearClipboardTimer = Timer(const Duration(seconds: 30), () async {
-      // Overwrite clipboard with empty text to clear it
+      debugPrint('Attempting to clear clipboard...');
       await Clipboard.setData(const ClipboardData(text: ''));
 
-      // Optionally, print debug info
-      debugPrint('Clipboard cleared after 30 seconds.');
+      // Verify if clipboard is cleared
+      final result = await Clipboard.getData('text/plain');
+      if (result?.text?.isEmpty ?? true) {
+        debugPrint('Clipboard successfully cleared.');
+      } else {
+        debugPrint('Clipboard NOT cleared. Found: ${result?.text}');
+      }
     });
   }
 
