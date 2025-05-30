@@ -1,13 +1,23 @@
+// Dart & Flutter core packages
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// State management
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Routing
 import 'package:go_router/go_router.dart';
+
+// Screenshot prevention package
 import 'package:no_screenshot/no_screenshot.dart';
+
+// App-specific imports
 import 'package:secure_vault/app/app_router.dart';
 import 'package:secure_vault/core/theme/theme_cubit.dart';
 import 'package:secure_vault/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:secure_vault/features/credential/presentation/bloc/credential_bloc.dart';
+import 'package:secure_vault/features/password_generator/presentation/blocs/password_generator_bloc.dart';
 import 'app/app_theme.dart';
 import 'core/di/injection.dart';
 import 'core/storage/secure_storage_service.dart';
@@ -15,32 +25,43 @@ import 'core/storage/shared_prefs_service.dart';
 import 'features/authentication/domain/use_cases/has_pin.dart';
 
 void main() async {
-  // Ensures widgets & plugins are initialized
+  // Ensure Flutter bindings are initialized before calling platform channels
   WidgetsFlutterBinding.ensureInitialized();
-  // Register all dependencies
+
+  // Register dependency injections
   setupDependencies();
-  // Initialize SharedPreferences inside the service
+
+  // Initialize shared preferences
   await sl<SharedPrefsService>().init();
+
+  // Clear secure storage on first install
   final secureStorageService = sl<SecureStorageService>();
   await secureStorageService.clearAllIfFirstInstall();
-  // 👇 Disable screenshots globally
+
+  // Disable screenshots across the app
   await NoScreenshot.instance.screenshotOff();
+
+  // Lock app orientation to portrait
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  // Launch the app with multiple BLoC providers
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider.value(value: sl<AuthBloc>()),
         BlocProvider.value(value: sl<ThemeCubit>()),
         BlocProvider.value(value: sl<CredentialBloc>()),
+        BlocProvider.value(value: sl<PasswordGeneratorBloc>()),
       ],
       child: const MyApp(),
     ),
   );
 }
 
+// Root widget for the application
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -50,20 +71,22 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Timer? _inactivityTimer;
-  static const Duration lockDelay = Duration(seconds: 20);
+  static const Duration lockDelay = Duration(minutes: 2);
   late final GoRouter _router;
   bool _appWasInBackground = false;
   final _noScreenshot = NoScreenshot.instance;
   int _latestTimerId = 0;
 
-
+  // Shortcut to access the AuthBloc
   AuthBloc get _authBloc => context.read<AuthBloc>();
 
   @override
   void initState() {
     super.initState();
+    // Register app lifecycle observer
     WidgetsBinding.instance.addObserver(this);
 
+    // Create router with callback on route change
     _router = createAppRouter(
       context,
       _authBloc.stream,
@@ -73,6 +96,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         }
       },
     );
+
+    // Start listening for screenshots
     _noScreenshot.startScreenshotListening();
     _noScreenshot.screenshotStream.listen((snapshot) {
       debugPrint('Screenshot taken: ${snapshot.wasScreenshotTaken}');
@@ -80,14 +105,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     });
   }
 
+  // Determine if auto-lock timer should be started based on route
   bool _shouldStartTimerOnRoute(String route) {
-    const sensitiveRoutes = ['/credential'];
+    const sensitiveRoutes = [
+      '/credential',
+      '/add-update-credential',
+      '/passwordGenerator',
+    ];
     return sensitiveRoutes.contains(route);
   }
 
+  // Start/reset the inactivity timer with a unique ID to prevent race conditions
   void _startInactivityTimer() {
-    // _inactivityTimer?.cancel();
-    // _inactivityTimer = Timer(lockDelay, _handleAutoLock);
     _latestTimerId++;
     final currentTimerId = _latestTimerId;
 
@@ -95,8 +124,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     _inactivityTimer = Timer(lockDelay, () => _handleAutoLock(currentTimerId));
   }
 
+  // Perform auto-lock if the timer ID is still valid
   Future<void> _handleAutoLock(int timerId) async {
-    if (timerId != _latestTimerId) return; // Cancel outdated timers
+    if (timerId != _latestTimerId) return; // Ignore outdated timers
 
     try {
       final hasPin = await sl<HasPin>()();
@@ -104,10 +134,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         _authBloc.add(SetLockEvent(true));
       }
     } catch (e) {
-      // Handle or log if necessary
+      // Handle or log errors if needed
     }
   }
 
+  // Handle lifecycle changes to manage lock state
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
@@ -129,6 +160,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Listener(
+      // Reset inactivity timer on any touch interaction
       onPointerDown: (_) => _startInactivityTimer(),
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
@@ -147,6 +179,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    // Remove lifecycle observer and cancel timers
     WidgetsBinding.instance.removeObserver(this);
     _inactivityTimer?.cancel();
     super.dispose();

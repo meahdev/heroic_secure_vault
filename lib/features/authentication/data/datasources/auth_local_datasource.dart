@@ -1,5 +1,7 @@
 import 'package:secure_vault/core/storage/secure_storage_service.dart';
 
+import '../../../../core/utils/AESHelper.dart';
+
 /// Contract defining local authentication-related operations.
 abstract class AuthLocalDataSource {
   /// Stores the user's PIN securely.
@@ -30,12 +32,20 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<void> savePin(String pin) async {
-    await storage.write(key: _pinKey, value: pin);
+    final encryptedPin = AESHelper.encryptText(pin);
+    await storage.write(key: _pinKey, value: encryptedPin);
   }
 
   @override
   Future<String?> getPin() async {
-    return await storage.read(key: _pinKey);
+    final encryptedPin = await storage.read(key: _pinKey);
+    if (encryptedPin == null) return null;
+    final decryptedPin = AESHelper.decryptText(encryptedPin);
+    if (decryptedPin == '[DECRYPTION_FAILED]') {
+      // Handle failed decryption if needed
+      return null;
+    }
+    return decryptedPin;
   }
 
   @override
@@ -44,13 +54,13 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   @override
-  Future<bool> isBioMetricEnabled() async{
-      final value = await storage.read(key: _biometricKey);
-     return value == 'true';
+  Future<bool> isBioMetricEnabled() async {
+    final value = await storage.read(key: _biometricKey);
+    return value == 'true';
   }
 
   @override
-  Future<void> setBioMetric(bool isEnabled) async{
+  Future<void> setBioMetric(bool isEnabled) async {
     await storage.write(key: _biometricKey, value: isEnabled.toString());
   }
 }
