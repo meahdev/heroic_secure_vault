@@ -33,9 +33,15 @@ class AppStrings {
   static const String userName = "User Name";
   static const String site = "Site";
   static const String password = "Password";
+  static const String enterPassword = "Enter Password";
   static const String category = "Category";
   static const String save = "Save";
   static const String update = "Update";
+  static const String enterUsername = "Enter username";
+  static const String siteName = "Site Name";
+  static const String enterSiteName = "Enter site name";
+  static const String copyPasswordWarning = "Password copied to clipboard. It will be cleared in 30 seconds.";
+  static const String copyPasswordToClipBoard = "Copy password to clipboard";
 
   // General
   static const String cancel = "Cancel";
@@ -43,6 +49,8 @@ class AppStrings {
   static const String securityVault = "Secure Vault";
   static const String delete = "Delete";
   static const String areYouSureWantToDelete = "Are you sure want to delete?";
-  static const String reinstallAppInstruction =
-      "To reset your PIN, you will need to uninstall and reinstall the application.";
+
+
+  // Validation
+  static const String fieldRequired = "This field is required";
 }

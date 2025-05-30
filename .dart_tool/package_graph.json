@@ -63,6 +63,14 @@
       ]
     },
     {
+      "name": "no_screenshot",
+      "version": "0.3.1",
+      "dependencies": [
+        "flutter",
+        "plugin_platform_interface"
+      ]
+    },
+    {
       "name": "encrypt",
       "version": "5.0.3",
       "dependencies": [
@@ -351,6 +359,13 @@
       ]
     },
     {
+      "name": "plugin_platform_interface",
+      "version": "2.1.8",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
       "name": "pointycastle",
       "version": "3.9.1",
       "dependencies": [
@@ -612,13 +627,6 @@
       "dependencies": []
     },
     {
-      "name": "plugin_platform_interface",
-      "version": "2.1.8",
-      "dependencies": [
-        "meta"
-      ]
-    },
-    {
       "name": "path_provider_linux",
       "version": "2.2.1",
       "dependencies": [
@@ -703,14 +711,6 @@
       "dependencies": [
         "flutter",
         "path_provider_platform_interface"
-      ]
-    },
-    {
-      "name": "no_screenshot",
-      "version": "0.3.1",
-      "dependencies": [
-        "flutter",
-        "plugin_platform_interface"
       ]
     }
   ],

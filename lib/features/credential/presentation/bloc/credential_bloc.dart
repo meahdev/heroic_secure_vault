@@ -37,8 +37,6 @@ class CredentialBloc extends Bloc<CredentialEvent, CredentialState> {
       final credentials = await getAllCredentials();
       emit(CredentialLoaded(credentials));
     } catch (e,stackTrace) {
-      print('❌ Error while loading credentials: $e');
-      print('🪵 StackTrace:\n$stackTrace');
       emit(CredentialError('Failed to load credentials'));
     }
   }

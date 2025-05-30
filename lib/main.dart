@@ -54,6 +54,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   late final GoRouter _router;
   bool _appWasInBackground = false;
   final _noScreenshot = NoScreenshot.instance;
+  int _latestTimerId = 0;
 
 
   AuthBloc get _authBloc => context.read<AuthBloc>();
@@ -85,11 +86,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   void _startInactivityTimer() {
+    // _inactivityTimer?.cancel();
+    // _inactivityTimer = Timer(lockDelay, _handleAutoLock);
+    _latestTimerId++;
+    final currentTimerId = _latestTimerId;
+
     _inactivityTimer?.cancel();
-    _inactivityTimer = Timer(lockDelay, _handleAutoLock);
+    _inactivityTimer = Timer(lockDelay, () => _handleAutoLock(currentTimerId));
   }
 
-  Future<void> _handleAutoLock() async {
+  Future<void> _handleAutoLock(int timerId) async {
+    if (timerId != _latestTimerId) return; // Cancel outdated timers
+
     try {
       final hasPin = await sl<HasPin>()();
       if (hasPin) {
@@ -105,7 +113,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.paused:
         _appWasInBackground = true;
-        _handleAutoLock();
+        _handleAutoLock(_latestTimerId);
         break;
       case AppLifecycleState.resumed:
         if (_appWasInBackground) {
