@@ -1,6 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pinput/pinput.dart';
+import 'package:secure_vault/core/utils/no_paste_helper.dart';
+import 'package:secure_vault/core/utils/snackbar_utils.dart';
 import 'package:secure_vault/features/credential/presentation/bloc/credential_bloc.dart';
 import 'package:secure_vault/features/credential/presentation/screen/widgets/category_dropdown.dart';
 import 'package:secure_vault/features/credential/presentation/screen/widgets/password_strength_indicator.dart';
@@ -43,6 +49,7 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
 
   PasswordStrength _passwordStrength = PasswordStrength.none;
   Category? _selectedCategory;
+  Timer? _clearClipboardTimer;
 
   @override
   void initState() {
@@ -73,13 +80,13 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
     _userNameFocus.dispose();
     _siteFocus.dispose();
     _passwordFocus.dispose();
-
+    _clearClipboardTimer?.cancel();
     super.dispose();
   }
 
   String? _requiredValidator(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'This field is required';
+      return AppStrings.fieldRequired;
     }
     return null;
   }
@@ -92,7 +99,7 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
         username: _userNameController.text.trim(),
         password: _passwordController.text.trim(),
         category: _selectedCategory!,
-        lastModified: DateTime.now()
+        lastModified: DateTime.now(),
       );
 
       if (widget.isEdit) {
@@ -103,6 +110,36 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
 
       context.pop(); // Go back after save/update
     }
+  }
+
+  void _copy() {
+    final password = _passwordController.text;
+    if (password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a password first.')),
+      );
+      return;
+    }
+
+    // Copy password to clipboard
+    Clipboard.setData(ClipboardData(text: password));
+
+    // Show confirmation SnackBar
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Password copied to clipboard')),
+    );
+
+    // Cancel previous timer if any
+    _clearClipboardTimer?.cancel();
+
+    // Start a timer to clear clipboard after 30 seconds
+    _clearClipboardTimer = Timer(const Duration(seconds: 30), () async {
+      // Overwrite clipboard with empty text to clear it
+      await Clipboard.setData(const ClipboardData(text: ''));
+
+      // Optionally, print debug info
+      debugPrint('Clipboard cleared after 30 seconds.');
+    });
   }
 
   @override
@@ -155,7 +192,7 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
                 config: TextFieldConfig(
                   controller: _userNameController,
                   focusNode: _userNameFocus,
-                  hintText: 'Enter username',
+                  hintText: AppStrings.enterUsername,
                   validator: _requiredValidator,
                   isHasBorder: true,
                   textInputAction: TextInputAction.next,
@@ -166,7 +203,7 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
               const SizedBox(height: 20),
 
               CustomText(
-                'Site Name',
+                AppStrings.siteName,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 8),
@@ -174,7 +211,7 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
                 config: TextFieldConfig(
                   controller: _siteController,
                   focusNode: _siteFocus,
-                  hintText: 'Enter site name',
+                  hintText: AppStrings.enterSiteName,
                   validator: _requiredValidator,
                   isHasBorder: true,
                   isOutLineInputBorder: true,
@@ -187,7 +224,7 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
               const SizedBox(height: 20),
 
               CustomText(
-                'Password',
+                AppStrings.password,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 8),
@@ -195,7 +232,7 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
                 config: TextFieldConfig(
                   controller: _passwordController,
                   focusNode: _passwordFocus,
-                  hintText: 'Enter password',
+                  hintText: AppStrings.enterPassword,
                   maxLines: 1,
                   validator: _requiredValidator,
                   isHasBorder: true,
@@ -214,6 +251,13 @@ class _AddUpdateCredentialScreenState extends State<AddUpdateCredentialScreen> {
                 onPressed: _onSubmit,
                 text: widget.isEdit ? AppStrings.update : AppStrings.save,
               ),
+              if (widget.isEdit) ...[
+                const SizedBox(height: 30),
+                CustomButton(
+                  onPressed: _copy,
+                  text: AppStrings.copyPasswordToClipBoard,
+                ),
+              ],
             ],
           ),
         ),

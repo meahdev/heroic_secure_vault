@@ -31,7 +31,7 @@ GoRouter createAppRouter(
       final isLocked = authState is LockUpdatedState && authState.locked;
       final isLockScreen = state.matchedLocation == '/enterPin';
 
-      if (isLocked && !isLockScreen) return '/enterPin';
+       if (isLocked && !isLockScreen) return '/enterPin';
       return null;
     },
     initialLocation: '/',

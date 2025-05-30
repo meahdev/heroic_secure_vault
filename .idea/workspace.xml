@@ -9,52 +9,19 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f0f321f1-de47-47ed-b271-c79b4b0f78b8" name="Changes" comment="implemented theme toggling in credential screen">
-      <change afterPath="$PROJECT_DIR$/lib/core/constants/category_constants.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/security/password_rules.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/security/password_strength.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/storage/shared_prefs_service.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/utils/AESHelper.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/data/datasources/credential_local_datasource.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/data/model/credential_model.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/data/repositories_impl/credential_repository_impl.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/domain/entities/category.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/domain/entities/credential_entity.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/domain/repositories/credential_repository.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/domain/usecases/add_credential.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/domain/usecases/delete_credential.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/domain/usecases/get_all_credentials.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/domain/usecases/update_credential.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/presentation/bloc/credential_bloc.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/presentation/bloc/credential_event.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/presentation/bloc/credential_state.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/presentation/screen/add_update_credential_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/presentation/screen/widgets/category_dropdown.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/credential/presentation/screen/widgets/password_strength_indicator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+    <list default="true" id="f0f321f1-de47-47ed-b271-c79b4b0f78b8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_graph.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_graph.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/app_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/app_router.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/constants/app_strings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/constants/app_strings.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/constants/route_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/constants/route_constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/di/injection.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/di/injection.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/theme/theme_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/theme/theme_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/datasources/auth_local_datasource.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/authentication/data/datasources/auth_local_datasource.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/repositories_impl/auth_repository_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/authentication/data/repositories_impl/auth_repository_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/domain/repositories/auth_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/authentication/domain/repositories/auth_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/domain/use_cases/authenticate_with_biometrics.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/authentication/domain/use_cases/authenticate_with_biometrics.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/domain/use_cases/has_pin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/authentication/domain/use_cases/has_pin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/domain/use_cases/is_biometric_enabled.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/authentication/domain/use_cases/is_biometric_enabled.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/domain/use_cases/save_pin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/authentication/domain/use_cases/save_pin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/domain/use_cases/set_biometric.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/authentication/domain/use_cases/set_biometric.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/domain/use_cases/verify_pin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/authentication/domain/use_cases/verify_pin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/authentication/presentation/bloc/auth_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/authentication/presentation/bloc/auth_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/credential/presentation/screen/credential_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/credential/presentation/screen/credential_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/security/screenshot_blocker.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/utils/AESHelper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/utils/AESHelper.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/utils/clipboard_helper.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/utils/encryption_helper.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/credential/presentation/bloc/credential_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/credential/presentation/bloc/credential_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/credential/presentation/screen/add_update_credential_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/credential/presentation/screen/add_update_credential_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/shared/widgets/custom_text_field/custom_text_field.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/shared/widgets/custom_text_field/custom_text_field.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +41,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/theme" />
+        <entry key="$PROJECT_DIR$" value="feature/screenshot_blocker" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -106,10 +73,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "ScreenshotViewer.SavePath": "/Users/shabeer/Documents/heroic_secure_vault",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "feature/credentials",
+    "git-widget-placeholder": "bugfix",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/shabeer/Documents/heroic_secure_vault/lib/features/credential/presentation/screen",
@@ -193,7 +161,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748563860766</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="completed credential flow">
+      <option name="closed" value="true" />
+      <created>1748596580162</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1748596580162</updated>
+    </task>
+    <task id="LOCAL-00009" summary="implemented no screenshot">
+      <option name="closed" value="true" />
+      <created>1748598410498</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1748598410498</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -213,7 +197,9 @@
     <MESSAGE value="setup clean architecture base structure" />
     <MESSAGE value="Implemented authentication: set PIN, confirm PIN, enter PIN, and biometric support" />
     <MESSAGE value="implemented theme toggling in credential screen" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented theme toggling in credential screen" />
+    <MESSAGE value="completed credential flow" />
+    <MESSAGE value="implemented no screenshot" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented no screenshot" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

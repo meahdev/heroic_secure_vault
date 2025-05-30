@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 import 'package:secure_vault/app/app_router.dart';
 import 'package:secure_vault/core/theme/theme_cubit.dart';
 import 'package:secure_vault/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -22,6 +23,8 @@ void main() async {
   await sl<SharedPrefsService>().init();
   final secureStorageService = sl<SecureStorageService>();
   await secureStorageService.clearAllIfFirstInstall();
+  // 👇 Disable screenshots globally
+  await NoScreenshot.instance.screenshotOff();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -50,6 +53,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   static const Duration lockDelay = Duration(seconds: 20);
   late final GoRouter _router;
   bool _appWasInBackground = false;
+  final _noScreenshot = NoScreenshot.instance;
+  int _latestTimerId = 0;
+
 
   AuthBloc get _authBloc => context.read<AuthBloc>();
 
@@ -67,6 +73,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         }
       },
     );
+    _noScreenshot.startScreenshotListening();
+    _noScreenshot.screenshotStream.listen((snapshot) {
+      debugPrint('Screenshot taken: ${snapshot.wasScreenshotTaken}');
+      debugPrint('Screenshot path: ${snapshot.screenshotPath}');
+    });
   }
 
   bool _shouldStartTimerOnRoute(String route) {
@@ -75,11 +86,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   void _startInactivityTimer() {
+    // _inactivityTimer?.cancel();
+    // _inactivityTimer = Timer(lockDelay, _handleAutoLock);
+    _latestTimerId++;
+    final currentTimerId = _latestTimerId;
+
     _inactivityTimer?.cancel();
-    _inactivityTimer = Timer(lockDelay, _handleAutoLock);
+    _inactivityTimer = Timer(lockDelay, () => _handleAutoLock(currentTimerId));
   }
 
-  Future<void> _handleAutoLock() async {
+  Future<void> _handleAutoLock(int timerId) async {
+    if (timerId != _latestTimerId) return; // Cancel outdated timers
+
     try {
       final hasPin = await sl<HasPin>()();
       if (hasPin) {
@@ -95,7 +113,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.paused:
         _appWasInBackground = true;
-        _handleAutoLock();
+        _handleAutoLock(_latestTimerId);
         break;
       case AppLifecycleState.resumed:
         if (_appWasInBackground) {
