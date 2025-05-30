@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 import 'package:secure_vault/app/app_router.dart';
 import 'package:secure_vault/core/theme/theme_cubit.dart';
 import 'package:secure_vault/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -22,6 +23,8 @@ void main() async {
   await sl<SharedPrefsService>().init();
   final secureStorageService = sl<SecureStorageService>();
   await secureStorageService.clearAllIfFirstInstall();
+  // 👇 Disable screenshots globally
+  await NoScreenshot.instance.screenshotOff();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -50,6 +53,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   static const Duration lockDelay = Duration(seconds: 20);
   late final GoRouter _router;
   bool _appWasInBackground = false;
+  final _noScreenshot = NoScreenshot.instance;
+
 
   AuthBloc get _authBloc => context.read<AuthBloc>();
 
@@ -67,6 +72,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         }
       },
     );
+    _noScreenshot.startScreenshotListening();
+    _noScreenshot.screenshotStream.listen((snapshot) {
+      debugPrint('Screenshot taken: ${snapshot.wasScreenshotTaken}');
+      debugPrint('Screenshot path: ${snapshot.screenshotPath}');
+    });
   }
 
   bool _shouldStartTimerOnRoute(String route) {

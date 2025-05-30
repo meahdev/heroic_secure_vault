@@ -18,6 +18,7 @@
         "get_it",
         "go_router",
         "local_auth",
+        "no_screenshot",
         "pinput",
         "shared_preferences"
       ],
@@ -702,6 +703,14 @@
       "dependencies": [
         "flutter",
         "path_provider_platform_interface"
+      ]
+    },
+    {
+      "name": "no_screenshot",
+      "version": "0.3.1",
+      "dependencies": [
+        "flutter",
+        "plugin_platform_interface"
       ]
     }
   ],
