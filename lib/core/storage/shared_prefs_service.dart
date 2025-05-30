@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// A singleton wrapper around SharedPreferences for easier and centralized usage.
 ///
-/// This service is used to store non-sensitive app preferences such as:
+///  This service is used to store non-sensitive app preferences such as:
 /// - Flags to detect fresh installs (e.g., "is_first_install")
 ///   This is important because on iOS, secure data stored in the Keychain
 ///   (via SecureStorageService) persists after uninstall, so

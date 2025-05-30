@@ -110,7 +110,7 @@ void setupDependencies() {
   //Repository
 
   sl.registerLazySingleton<PasswordGeneratorRepository>(
-        () => PasswordGeneratorRepositoryImpl(),
+    () => PasswordGeneratorRepositoryImpl(),
   );
   // Use Cases
   sl.registerLazySingleton(() => GeneratePassword(sl()));
