@@ -12,7 +12,7 @@ class RouteConstants {
 
   // Credential
   static const String credential = 'credential';
-  static const String credentialDetail = 'credential_detail';
+  static const String addUpdateCredential = 'add_update_credential';
 
   // Tools / Features
   static const String passwordGenerator = 'password_generator';

@@ -26,12 +26,23 @@ class AppStrings {
   static const String unlockWithBiometric = "Click to Unlock with Biometric";
 
   // Credential
-  static const String yourCredentials = "Your Credentials";
+  static const String yourCredentials = "Credentials";
+  static const String credentialDetail = "Credential Detail";
+  static const String addCredentials = "Add your Credential";
+  static const String updateCredentials = "Update your Credential";
+  static const String userName = "User Name";
+  static const String site = "Site";
+  static const String password = "Password";
+  static const String category = "Category";
+  static const String save = "Save";
+  static const String update = "Update";
 
   // General
   static const String cancel = "Cancel";
   static const String ok = "OK";
   static const String securityVault = "Secure Vault";
+  static const String delete = "Delete";
+  static const String areYouSureWantToDelete = "Are you sure want to delete?";
   static const String reinstallAppInstruction =
       "To reset your PIN, you will need to uninstall and reinstall the application.";
 }
