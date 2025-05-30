@@ -34,7 +34,6 @@ class _PasswordGeneratorScreenState extends State<PasswordGeneratorScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = context.watch<ThemeCubit>().state == ThemeMode.dark;
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -55,7 +54,10 @@ class _PasswordGeneratorScreenState extends State<PasswordGeneratorScreen> {
             // Slider for password length
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const CustomText('Length'), CustomText('${_length.toInt()}')],
+              children: [
+                const CustomText('Length'),
+                CustomText('${_length.toInt()}'),
+              ],
             ),
             Slider(
               value: _length,
@@ -91,7 +93,8 @@ class _PasswordGeneratorScreenState extends State<PasswordGeneratorScreen> {
             // Generate button
             CustomButton(
               onPressed: _generatePassword,
-              text:AppStrings.generatePassword),
+              text: AppStrings.generatePassword,
+            ),
 
             const SizedBox(height: 24),
 
@@ -115,7 +118,7 @@ class _PasswordGeneratorScreenState extends State<PasswordGeneratorScreen> {
                       CustomText(
                         '${AppStrings.strength}: ${state.strength}',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: _getStrengthColor(state.strength)
+                          color: _getStrengthColor(state.strength),
                         ),
                       ),
                     ],
