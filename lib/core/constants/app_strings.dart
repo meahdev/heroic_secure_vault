@@ -5,9 +5,7 @@ class AppStrings {
   static const String create4DigitPin = "Create 4 Digit PIN";
   static const String confirmPin = "Confirm PIN";
   static const String secureVaultLocked = "Secure Vault Locked";
-  static const String unlockWithBiometric = "Click to Unlock with Biometric";
   static const String enterPin = "Enter PIN";
-  static const String biometricAuthenticationFailed = "Biometric authentication failed";
   static const String inCorrectPin = "Incorrect PIN";
   static const String pinsDoNotMatch = "Pins do not match. Please try again.";
   static const String pinBlock =
@@ -23,6 +21,12 @@ class AppStrings {
       "Biometric authentication enabled!";
   static const String biometricAuthenticationFallback =
       "Couldn't verify with biometrics, but your PIN unlocked the app.";
+  static const String biometricAuthenticationFailed =
+      "Biometric authentication failed";
+  static const String unlockWithBiometric = "Click to Unlock with Biometric";
+
+  // Credential
+  static const String yourCredentials = "Your Credentials";
 
   // General
   static const String cancel = "Cancel";
